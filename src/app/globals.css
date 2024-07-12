@@ -67,3 +67,13 @@
       @apply bg-background text-foreground;
     }
   }
+  .dropdown-wrapper {
+    position: relative;
+  }
+  
+  .dropdown-content {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    z-index: 10;
+  }

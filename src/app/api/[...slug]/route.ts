@@ -22,8 +22,8 @@ export async function GET(
     }
   );
 
-  //   if (!res.ok) {
-  //     throw new Error(`Error: ${res.status}`);
-  //   }
+    if (!res.ok) {
+      throw new Error(`Error: ${res.status}`);
+    }
   return NextResponse.json(await res.json());
 }
