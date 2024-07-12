@@ -12,8 +12,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
@@ -36,11 +34,7 @@ export const Layout = ({
   const [layout, setLayout, toggleTheme, setLanguage] = useLayout();
   const paths = pathname.split("/");
   const pathUnderscore = pathname.replaceAll("/", "_");
-  console.log(
-    "layout",
-    Object.keys(layout.path).length,
-    Object.keys(layout.path).length > 0
-  );
+
 
   if (!layout || !pathname) return <Loading />;
   return (

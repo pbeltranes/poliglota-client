@@ -29,8 +29,8 @@ const Layout = createContext<LayoutContextType | undefined>(undefined);
 export function LayoutProvider({ children }: { children: ReactNode }) {
   const [layout, setLayout] = useState<layoutInterface>({
     theme: "light",
-    lang: "en",
-    locale: "us",
+    lang: "es",
+    locale: "cl",
     path: {},
   });
 
@@ -39,7 +39,6 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
       try {
         const response = await fetch("/api/config");
         const data = await response.json();
-        console.log("data", data);
         setLayout({
           ...layout,
           path: data.path,
@@ -49,6 +48,7 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
       }
     }
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const toggleTheme = () => {

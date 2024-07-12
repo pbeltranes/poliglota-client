@@ -1,7 +1,6 @@
 "use client";
 import { useLayout } from "@/app/_context/layout.context";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import Loading from "@/app/loading";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -9,33 +8,35 @@ export default function Home() {
   const pathname = usePathname();
   const [layout, setLayout] = useLayout();
 
-  const [params, setParams] = useState({
-    path: pathname.split("/").join("_"),
-    lang: layout.lang,
-    locale: layout.locale,
-  });
-  const [translations, setTranslations] = useState<{ [key: string]: any }>({});
+  const [translations, setTranslations] = useState<{
+    [key: string]: any;
+  } | null>(null);
   useEffect(() => {
     async function fetchData() {
       const response = await fetch(
-        `/api/${params.path}/${params.lang}/${params.locale}`
+        `/api/${pathname.split("/").join("_")}/${layout.lang}/${layout.locale}`
       );
       const data = await response.json();
-      setTranslations(data.translations);
+      if (data) setTranslations(data.translations);
     }
     fetchData();
-  }, []);
+  }, [layout.lang, layout.locale, pathname]);
 
-  const TranslationList = Object.keys(translations).map((key: string) => (
-    <li key={key}>
-      {key}: {translations[key]}
-    </li>
-  ));
-
+  const List = ({ translations }: { translations: { [key: string]: any } }) => {
+    return (
+      <ul>
+        {Object.keys(translations).map((key: string) => (
+          <li key={key}>
+            {key}: {translations[key]}
+          </li>
+        ))}
+      </ul>
+    );
+  };
+  console.log(translations);
   return (
-    <main className="flex min-h-screen flex-col items-center  p-24">
-      <Button>Click me </Button>
-      <ul>{TranslationList}</ul>
+    <main className="flex min-h-screen flex-col items-center p-24">
+      {!translations ? <Loading /> : <List translations={translations} />}
     </main>
   );
 }

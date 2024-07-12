@@ -1,5 +1,5 @@
 "use client";
-import type { Metadata } from "next";
+// import type { Metadata } from "next";
 import "./globals.css";
 import { LayoutProvider } from "./_context/layout.context";
 import { Layout } from "./_components/layout";
