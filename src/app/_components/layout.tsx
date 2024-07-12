@@ -19,6 +19,7 @@ import {
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Loading from "../loading";
+import { DarkIcon, TranslateIcon } from "@/components/ui/icon";
 
 const transformObj = (obj: Record<string, string[]>) => {
   return Object.entries(obj).flatMap(([lang, countries]) =>
@@ -32,19 +33,18 @@ export const Layout = ({
   children: React.ReactNode;
 }>): React.ReactNode => {
   const pathname = usePathname();
-  const [layout, setLanguage] = useLayout();
+  const [layout, setLayout, toggleTheme, setLanguage] = useLayout();
   const paths = pathname.split("/");
   const pathUnderscore = pathname.replaceAll("/", "_");
-  console.log("pathTransformer", pathUnderscore);
+  console.log(
+    "layout",
+    Object.keys(layout.path).length,
+    Object.keys(layout.path).length > 0
+  );
 
-  console.log("layout", layout.path[pathUnderscore]);
-  const arrayTranslations = transformObj(layout.path[pathUnderscore]);
-  console.log("arrayTranslations", arrayTranslations);
   if (!layout || !pathname) return <Loading />;
   return (
-    <body
-      className={` ${layout.theme} flex min-h-screen w-full flex-col bg-muted/40`}
-    >
+    <body className={` ${layout.theme} flex min-h-screen w-full flex-col`}>
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
         <header className="sticky items-center justify-between flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
           <Breadcrumb>
@@ -63,25 +63,35 @@ export const Layout = ({
               ))}
             </BreadcrumbList>
           </Breadcrumb>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline">
-                {`${layout.lang}/${layout.locale}`}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {arrayTranslations.map((translation, index) => (
-                <DropdownMenuItem
-                  key={index}
-                  // onClick={() => setLanguage( translation )}
-                >
-                  {translation}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="flex gap-4">
+            <Button variant="outline" onClick={toggleTheme}>
+              {layout.theme}
+              <DarkIcon className="h-6 w-6" />
+            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">
+                  {`${layout.lang}/${layout.locale}`}
+                  <TranslateIcon className="h-6 w-6" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {layout.path[pathUnderscore] &&
+                  Object.keys(layout.path).length > 0 &&
+                  transformObj(layout.path[pathUnderscore]).map(
+                    (translation: string, index: number) => (
+                      <DropdownMenuItem
+                        key={index}
+                        onClick={() => setLanguage(translation)}
+                      >
+                        {translation}
+                      </DropdownMenuItem>
+                    )
+                  )}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </header>
-
         {children}
       </div>
     </body>

@@ -16,15 +16,15 @@ interface layoutInterface {
   locale: string;
   path: Record<string, Record<string, string[]>>;
 }
-const Layout = createContext<
-  | [
-      layoutInterface,
-      Dispatch<SetStateAction<layoutInterface>>,
-      undefined,
-      Dispatch<SetStateAction<string>>
-    ]
-  | undefined
->(undefined);
+
+type LayoutContextType = [
+  layoutInterface,
+  Dispatch<SetStateAction<layoutInterface>>,
+  () => void,
+  (langLocal: string) => void
+];
+
+const Layout = createContext<LayoutContextType | undefined>(undefined);
 
 export function LayoutProvider({ children }: { children: ReactNode }) {
   const [layout, setLayout] = useState<layoutInterface>({
@@ -51,7 +51,7 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
     fetchData();
   }, []);
 
-  const tonggleTheme = () => {
+  const toggleTheme = () => {
     setLayout({
       ...layout,
       theme: layout.theme === "light" ? "dark" : "light",
@@ -62,20 +62,12 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
     const splitted = langLocal.split("/");
     setLayout({
       ...layout,
-      theme: layout.theme === "light" ? "dark" : "light",
       lang: splitted[0],
       locale: splitted[1],
     });
   };
   return (
-    <Layout.Provider
-      value={[
-        layout,
-        setLayout as Dispatch<SetStateAction<object>>,
-        tonggleTheme as unknown as undefined,
-        setLanguage as Dispatch<SetStateAction<string>>,
-      ]}
-    >
+    <Layout.Provider value={[layout, setLayout, toggleTheme, setLanguage]}>
       {children}
     </Layout.Provider>
   );

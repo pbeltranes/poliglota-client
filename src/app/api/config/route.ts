@@ -9,7 +9,6 @@ export async function GET() {
       "Content-Type": "application/json",
     },
   });
-
   if (!res.ok) {
     throw new Error(`Error: ${res.status}`);
   }

@@ -3,15 +3,16 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useLayout } from "../_context/layout.context";
 
-export default function Home() {
+export default function Page() {
   const pathname = usePathname();
+  const [layout, setLayout] = useLayout();
 
   const [params, setParams] = useState({
-    project: "clay",
-    path: pathname.replaceAll("/", "_"),
-    lang: "es",
-    locale: "cl",
+    path: pathname.split("/").join("_"),
+    lang: layout.lang,
+    locale: layout.locale,
   });
   const [translations, setTranslations] = useState<{ [key: string]: any }>({});
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center  p-24">
-      <Button>Click me</Button>
+      <Button>Click me </Button>
       <ul>{TranslationList}</ul>
     </main>
   );

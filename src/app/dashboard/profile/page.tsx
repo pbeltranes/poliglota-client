@@ -1,17 +1,18 @@
-'use client';
+"use client";
+import { useLayout } from "@/app/_context/layout.context";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const pathname = usePathname()
+  const pathname = usePathname();
+  const [layout, setLayout] = useLayout();
 
   const [params, setParams] = useState({
-    project: "clay",
-    path: pathname.replaceAll("/", "_"),
-    lang: "es",
-    locale: "cl",
+    path: pathname.split("/").join("_"),
+    lang: layout.lang,
+    locale: layout.locale,
   });
   const [translations, setTranslations] = useState<{ [key: string]: any }>({});
   useEffect(() => {
@@ -30,11 +31,10 @@ export default function Home() {
       {key}: {translations[key]}
     </li>
   ));
-  
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
 
-      <Button>Click me</Button>
+  return (
+    <main className="flex min-h-screen flex-col items-center  p-24">
+      <Button>Click me </Button>
       <ul>{TranslationList}</ul>
     </main>
   );
