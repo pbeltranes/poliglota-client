@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h2 align="center">Prueba Clay Technologies</h3>
 
-## Getting Started
+## Descripción
+Este proyecto es una prueba técnica diseñada para demostrar habilidades en el desarrollo de software. La aplicación permite mostrar idiomas desde la API de acuerdo a los parametros establecidos.
 
-First, run the development server:
+> Este projecto uso como framework principal [Next](https://docs.nestjs.com/) en conjunto con [Tailwind](https://tailwindcss.com/) y [Shadcn](https://ui.shadcn.com/), además se recomienda uso de [pnpm](https://pnpm.io/es/installation#usando-pnpm). 
 
+## Instalación
+Para configurar y correr la aplicación localmente, sigue estos pasos:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+$ pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Ambientes
+Primero debemos crear el env, para ello copiamos el de ejemplo:
+```bash
+cp .env.example .env
+```
+Para manejar las migraciones de la base de datos, usa los siguientes comandos:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Ejecución de la aplicación
+Puedes correr la aplicación en modo desarrollo utilizando los comandos:
+```bash
 
-## Learn More
+# Modo watch (reinicio automático)
+$ pnpm dev
+```
+La ruta de acceso es:
+```
+# ruta de acceso
+$ http://localhost:3000
 
-To learn more about Next.js, take a look at the following resources:
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Pruebas (WIP)
 
-## Deploy on Vercel
+```bash
+# Ejecutar pruebas unitarias
+$ pnpm run test
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Ver la cobertura de pruebas
+$ pnpm run test:cov
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Revisión funcionalidades
+
+1. La applicación es accesible desde http://localhost:3000 además dispone de dos rutas adiconales para comprobar que se puede ajusta los textos a cada ruta.
+
+
+```
+http://localhost:3000
+http://localhost:3000/dashaboard
+http://localhost:3000/dashboard/profile
+```
+
+## Alcances (WIP)
+- La aplicación tiene un SSR donde se desactiva el cache para fines practicos. 
+- La aplicación almacena de manera local el idioma seleccionado actualmente, si llega a cambiar de ruta y la nueva ruta no dispone el idioma actual puede fallar, simplemente se debe cambiar a los idiomas disponibles.
+
+
+
+## Author
+
+- Paul Beltrán - [Github](https://github.com/pbeltranes) - [Lindked](https://www.linkedin.com/in/paul-beltran-espinosa/)
