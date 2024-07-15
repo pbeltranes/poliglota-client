@@ -5,8 +5,8 @@ export async function GET(
   { params }: { params: { slug: string } }
 ) {
   const slug = params.slug; // 'a', 'b', or 'c'
-
   console.log(slug);
+
   const project = process.env.PROJECT_NAME;
   const path = slug[0];
   const lang = slug[1];
