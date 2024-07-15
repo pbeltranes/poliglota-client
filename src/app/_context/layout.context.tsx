@@ -28,29 +28,46 @@ const Layout = createContext<LayoutContextType | undefined>(undefined);
 
 export function LayoutProvider({ children }: { children: ReactNode }) {
   const [layout, setLayout] = useState<layoutInterface>({
-    theme: "light",
-    lang: "es",
-    locale: "cl",
+    theme: localStorage.getItem("theme") || "light",
+    lang: localStorage.getItem("lang") || "es",
+    locale: localStorage.getItem("locale") || "cl",
     path: {},
   });
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch("/api/config");
-        const data = await response.json();
-        setLayout({
-          ...layout,
-          path: data.path,
-        });
-      } catch (error) {
-        console.error("Error fetching layout data:", error);
-      }
+    const savedTheme = localStorage.getItem("theme");
+    const savedLang = localStorage.getItem("lang");
+    const savedLocale = localStorage.getItem("locale");
+
+    if (savedTheme && savedLang && savedLocale) {
+      setLayout((prev) => ({
+        ...prev,
+        theme: savedTheme,
+        lang: savedLang,
+        locale: savedLocale,
+      }));
     }
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem("theme", layout.theme);
+    localStorage.setItem("lang", layout.lang);
+    localStorage.setItem("locale", layout.locale);
+  }, [layout.theme, layout.lang, layout.locale]);
+
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch("/api/config");
+      const data = await response.json();
+      setLayout((prev) => {
+        return { ...prev, path: data.path };
+      });
+    } catch (error) {
+      console.error("Error fetching layout data:", error);
+    }
+  };
   const toggleTheme = () => {
     setLayout({
       ...layout,
@@ -58,12 +75,12 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const setLanguage = (langLocal: string) => {
-    const splitted = langLocal.split("/");
+  const setLanguage = async (langLocal: string) => {
+    const [lang, locale] = langLocal.split("/");
     setLayout({
       ...layout,
-      lang: splitted[0],
-      locale: splitted[1],
+      lang,
+      locale,
     });
   };
   return (

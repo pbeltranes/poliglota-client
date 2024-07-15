@@ -6,11 +6,12 @@ import Loading from "./loading";
 
 export default function Home() {
   const pathname = usePathname();
-  const [layout, setLayout] = useLayout();
+  const [layout] = useLayout();
 
   const [translations, setTranslations] = useState<{
     [key: string]: any;
   } | null>(null);
+
   useEffect(() => {
     async function fetchData() {
       const response = await fetch(
@@ -33,7 +34,7 @@ export default function Home() {
       </ul>
     );
   };
-  console.log(translations);
+
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
       {!translations ? <Loading /> : <List translations={translations} />}

@@ -6,11 +6,12 @@ import Loading from "../loading";
 
 export default function Home() {
   const pathname = usePathname();
-  const [layout, setLayout] = useLayout();
+  const [layout] = useLayout();
 
   const [translations, setTranslations] = useState<{
     [key: string]: any;
   } | null>(null);
+
   useEffect(() => {
     async function fetchData() {
       const response = await fetch(
