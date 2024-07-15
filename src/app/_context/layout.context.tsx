@@ -35,27 +35,28 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    const savedLang = localStorage.getItem("lang");
-    const savedLocale = localStorage.getItem("locale");
+    if (typeof window !== "undefined") {
+      const savedTheme = localStorage.getItem("theme");
+      const savedLang = localStorage.getItem("lang");
+      const savedLocale = localStorage.getItem("locale");
 
-    if (savedTheme && savedLang && savedLocale) {
-      setLayout((prev) => ({
-        ...prev,
-        theme: savedTheme,
-        lang: savedLang,
-        locale: savedLocale,
-      }));
+      if (savedTheme && savedLang && savedLocale) {
+        setLayout((prev) => ({
+          ...prev,
+          theme: savedTheme,
+          lang: savedLang,
+          locale: savedLocale,
+        }));
+      }
+      fetchData();
     }
-    fetchData();
-  }, []);
+  }, [layout.theme, layout.lang, layout.locale]);
 
   useEffect(() => {
     localStorage.setItem("theme", layout.theme);
     localStorage.setItem("lang", layout.lang);
     localStorage.setItem("locale", layout.locale);
   }, [layout.theme, layout.lang, layout.locale]);
-
 
   const fetchData = async () => {
     try {
