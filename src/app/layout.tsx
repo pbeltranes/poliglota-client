@@ -1,12 +1,8 @@
 "use client";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+// import type { Metadata } from "next";
 import "./globals.css";
-import { usePathname } from "next/navigation";
-import { LayoutProvider, useLayout } from "./_context/layout";
-import { NavigationBar } from "./_components/NavigationBar";
-
-const inter = Inter({ subsets: ["latin"] });
+import { LayoutProvider } from "./_context/layout.context";
+import { Layout } from "./_components/layout";
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -21,14 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <LayoutProvider>
-        <body
-          className={`${inter.className}flex min-h-screen flex-col items-center  p-24`}
-        >
-          <NavigationBar />
-          <main className="flex flex-col items-center justify-between p-24">
-            {children}
-          </main>
-        </body>
+        <Layout>{children}</Layout>
       </LayoutProvider>
     </html>
   );
